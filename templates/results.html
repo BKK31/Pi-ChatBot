@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wound Image Analysis Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+       .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Wound Image Analysis Results</h1>
+        <p>{{ disclaimer }}</p>
+        <h2>Description:</h2>
+        <p>{{ results.description }}</p>
+        <h2>Features:</h2>
+        <ul>
+            {% for feature in results.features %}
+                <li>{{ feature }}</li>
+            {% endfor %}
+        </ul>
+        <h2>First Aid:</h2>
+        <p>{{ results.first_aid }}</p>
+    </div>
+</body>
+</html>
