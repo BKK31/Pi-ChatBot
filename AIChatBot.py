@@ -8,7 +8,7 @@ import json
 # (Disclaimer message about limitations)
 DISCLAIMER = "WARNING: This website is for informational purposes only and should not be used for medical diagnosis or treatment. Always consult a medical professional for wound assessment and treatment."
 
-api_key = "AIzaSyBdGzVQaMJXGDgjeGLBbxtahibdGC-UoIQ"
+api_key = "YOUR_API_KEY"
 Genai.configure(api_key=api_key)
 
 model = Genai.GenerativeModel(
