@@ -4,32 +4,133 @@
     <title>Wound Image Analysis Results</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0e0e0 50%, #f5f5f5 50%);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden; /* Prevent scrolling */
         }
-       .container {
-            max-width: 600px;
-            margin: 40px auto;
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-weight: bold;
+            color: #2c3e50;
+            text-transform: uppercase;
+            font-size: 2.2rem;
+            border-bottom: 3px solid #4CAF50;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        .disclaimer {
+            font-size: 1rem;
+            color: #000000;
+            margin-top: 10px;
+        }
+        
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            width: 100%;
+            max-width: 1200px;
+            flex-grow: 1;
+        }
+        
+        .container {
+            flex: 1;
+            margin: 10px;
             padding: 20px;
             border: 1px solid #ccc;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            background-color: #ffffff;
+            overflow-y: auto;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        h2 {
+            margin-top: 0;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 10px;
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 1.4rem;
+        }
+        
+        .container p, .container ol {
+            color: #34495e;
+            font-size: 1.0rem;
+            line-height: 1.4;
+        }
+        
+        .container ol {
+            padding-left: 20px;
+            margin: 0;
+        }
+        
+        .container li {
+            padding: 8px;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .container li:last-child {
+            border-bottom: none;
+        }
+        
+        .container li:before {
+            content: "\2022";
+            color: #4CAF50;
+            font-size: 1.2rem;
+            margin-right: 5px;
+        }
+        
+        .image-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .image-container img {
+            max-width: 100%;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="header">
         <h1>Wound Image Analysis Results</h1>
-        <p>{{ disclaimer }}</p>
-        <h2>Description:</h2>
-        <p>{{ results.description }}</p>
-        <h2>Features:</h2>
-        <ul>
-            {% for feature in results.features %}
-                <li>{{ feature }}</li>
-            {% endfor %}
-        </ul>
-        <h2>First Aid:</h2>
-        <p>{{ results.first_aid }}</p>
+        <p class="disclaimer">{{ disclaimer }}</p>
+    </div>
+    <div class="content">
+        <div class="container">
+            <h2>Description</h2>
+            <p>{{ results.description }}</p>
+            <div class="image-container">
+                <img src="" alt="wound image">
+            </div>
+        </div>
+        <div class="container">
+            <h2>Features</h2>
+            <ol>
+                {% for feature in results.features %}
+                    <li>{{ feature }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="container">
+            <h2>First Aid</h2>
+            <p>{{ results.first_aid }}</p>
+        </div>
     </div>
 </body>
 </html>
