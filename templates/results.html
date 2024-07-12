@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Wound Image Analysis Results</title>
     <style>
@@ -11,14 +12,15 @@
             flex-direction: column;
             align-items: center;
             height: 100vh;
-            overflow: hidden; /* Prevent scrolling */
+            overflow: hidden;
+            /* Prevent scrolling */
         }
-        
+
         .header {
             text-align: center;
             margin-bottom: 20px;
         }
-        
+
         h1 {
             font-weight: bold;
             color: #2c3e50;
@@ -28,13 +30,13 @@
             display: inline-block;
             padding-bottom: 10px;
         }
-        
+
         .disclaimer {
             font-size: 1rem;
             color: #000000;
             margin-top: 10px;
         }
-        
+
         .content {
             display: flex;
             justify-content: center;
@@ -43,7 +45,7 @@
             max-width: 1200px;
             flex-grow: 1;
         }
-        
+
         .container {
             flex: 1;
             margin: 10px;
@@ -55,8 +57,19 @@
             border-radius: 15px;
             display: flex;
             flex-direction: column;
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f7f7f7;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
         }
-        
+
+        .container:hover {
+            box-shadow: inset 0 0 15px #68c96b;
+        }
+
         h2 {
             margin-top: 0;
             font-weight: bold;
@@ -66,46 +79,48 @@
             text-transform: uppercase;
             font-size: 1.4rem;
         }
-        
-        .container p, .container ol {
+
+        .container p,
+        .container ol {
             color: #34495e;
             font-size: 1.0rem;
             line-height: 1.4;
         }
-        
+
         .container ol {
             padding-left: 20px;
             margin: 0;
         }
-        
+
         .container li {
             padding: 8px;
             border-bottom: 1px solid #ccc;
         }
-        
+
         .container li:last-child {
             border-bottom: none;
         }
-        
+
         .container li:before {
             content: "\2022";
             color: #4CAF50;
             font-size: 1.2rem;
             margin-right: 5px;
         }
-        
+
         .image-container {
             text-align: center;
             margin-top: 10px;
         }
-        
+
         .image-container img {
             max-width: 100%;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.1);
         }
     </style>
 </head>
+
 <body>
     <div class="header">
         <h1>Wound Image Analysis Results</h1>
@@ -116,14 +131,14 @@
             <h2>Description</h2>
             <p>{{ results.description }}</p>
             <div class="image-container">
-                <img src="" alt="wound image">
+                <img src="{{uploaded_image_url}}" alt="wound image" width="300px" height="300px">
             </div>
         </div>
         <div class="container">
             <h2>Features</h2>
             <ol>
                 {% for feature in results.features %}
-                    <li>{{ feature }}</li>
+                <li>{{ feature }}</li>
                 {% endfor %}
             </ol>
         </div>
@@ -133,4 +148,5 @@
         </div>
     </div>
 </body>
+
 </html>

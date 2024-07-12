@@ -34,47 +34,55 @@ def analyze_wound_image(image_path):
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = 'static/uploads/'
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        uploaded_file = request.files['image']
-        if uploaded_file.filename != '':
-            if uploaded_file.mimetype not in ['image/jpeg', 'image/jpg', 'image/png']:
-                return redirect(url_for('upload_file', error="Only JPG and PNG images are allowed."))
-
-            # Generate a unique filename and save the image
-            filename = f"{os.urandom(10).hex()}.{uploaded_file.mimetype.split('/')[1]}"
-            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            uploaded_file.save(image_path)
-
-            # Analyze the image
-            try:
-                img = PIL.Image.open(image_path)
-                response = analyze_wound_image(img)
-                response_json = json.loads(response.text)
-                description = response_json.get("description", "No description available")
-                first_aid = response_json.get("first_aid", "No first aid information available")
-                features = response_json.get("features", "No features available")
-
-            except Exception as e:
-                print(f"Error analyzing image: {e}")
-                return redirect(url_for('upload_file', error="Error processing the image. Please try again."))
-
-            output_json = {
-                "description": description,
-                "features": features,
-                "first_aid": first_aid
-            }
-
-            return render_template('results.html', results=output_json, disclaimer=DISCLAIMER, uploaded_image_url=url_for('static', filename=filename))
-        else:
-            return redirect(url_for('upload_file', error="No image selected."))
+def upload_page():
     return render_template('upload.html', disclaimer=DISCLAIMER)
 
-@app.route('/results.html')
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if 'image' not in request.files:
+        return redirect(url_for('upload_page', error="No file part in the request."))
+    
+    uploaded_file = request.files['image']
+    if uploaded_file.filename == '':
+        return redirect(url_for('upload_page', error="No image selected."))
+    
+    if uploaded_file.mimetype not in ['image/jpeg', 'image/jpg', 'image/png']:
+        return redirect(url_for('upload_page', error="Only JPG and PNG images are allowed."))
+    
+    # Generate a unique filename and save the image
+    filename = f"{os.urandom(10).hex()}.{uploaded_file.mimetype.split('/')[1]}"
+    image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    uploaded_file.save(image_path)
+
+    # Analyze the image
+    try:
+        img = PIL.Image.open(image_path)
+        response = analyze_wound_image(img)
+        response_json = json.loads(response.text)
+        description = response_json.get("description", "No description available")
+        first_aid = response_json.get("first_aid", "No first aid information available")
+        features = response_json.get("features", "No features available")
+
+    except Exception as e:
+        print(f"Error analyzing image: {e}")
+        return redirect(url_for('upload_page', error="Error processing the image. Please try again."))
+
+    output_json = {
+        "description": description,
+        "features": features,
+        "first_aid": first_aid
+    }
+    
+    return render_template('results.html', results=output_json, disclaimer=DISCLAIMER, uploaded_image_url=url_for('static', filename='uploads/' + filename))
+
+@app.route('/results')
 def results():
     return render_template('results.html')
 
