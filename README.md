@@ -1,4 +1,4 @@
-AIChatBot.py
+# AIChatBot.py
 
 This Flask web application provides a simple interface for uploading and analyzing wound images.
 
